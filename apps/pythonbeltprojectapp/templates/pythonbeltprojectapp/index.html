@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Index Login Page</title>
+
+    <style>
+    .Registration {
+      display: inline-block;
+    }
+    .Login {
+      margin-left: 200px;
+      display: inline-block;
+      vertical-align: top;
+    }
+    </style>
+
+  </head>
+  <body>
+    <div class="Wrapper">
+      <h1>Welcome!</h1>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="flashmessages">
+            {{message}}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="Registration">
+        <form class="" action="{% url 'pythonbelt:register' %}" method="post">
+
+          {% csrf_token %}
+          <h3>Register</h3>
+          <p>Name: <input type="text" name="Name" value=""></p>
+          <p>Alias: <input type="text" name="Alias" value=""></p>
+          <p>Email: <input type="text" name="Email" value=""></p>
+          <p>Password: <input type="text" name="Password" value=""></p>
+          <p>Confirm PW: <input type="text" name="ConfirmPW" value=""></p>
+          <p>Date of Birth: <input type="date" name="DOB" value=""></p>
+
+          <input type="submit" name="Register" value="Register">
+        </form>
+      </div>
+
+      <div class="Login">
+        <form class="" action="{% url 'pythonbelt:login' %}" method="post">
+          {% csrf_token %}
+          <h3>Login</h3>
+          <p>Email: <input type="text" name="Email" value=""></p>
+          <p>Password: <input type="text" name="Password" value=""></p>
+          <input type="submit" name="Login" value="Login">
+        </form>
+      </div>
+
+    </div>
+  </body>
+</html>

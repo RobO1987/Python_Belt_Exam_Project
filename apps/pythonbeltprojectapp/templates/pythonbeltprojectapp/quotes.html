@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quotes Page</title>
+    <style>
+    #welcome {
+      display: inline-block;
+    }
+    #logout{
+      display: inline-block;
+      margin-left: 600px;
+      margin-top: 30px;
+      vertical-align: top;
+    }
+    .quotablequotes, .favoritequotes{
+      display: inline-block;
+      margin-right: 100px;
+      width: 400px;
+      vertical-align: top;
+    }
+    .quotecontributions{
+      margin-top: 30px;
+    }
+    </style>
+  </head>
+  <h1 id= 'welcome'>Welcome, {{request.session.name}}!</h1>
+  <a href="{% url 'pythonbelt:clearsession' %}" id ='logout'> Logout</a>
+  <div class="quotablequotes">
+    <h3>Quotable Quotes</h3>
+    <hr>
+    {% for quote in quotes %}
+    <p> Quote: {{quote.quoteauthor}}: {{quote.quotemessage}}</p>
+    <p>Posted by: <a href="{% url 'pythonbelt:quoteuser' quote.user.id %}">{{quote.user.name}}</a></p>
+    <form action="{% url 'pythonbelt:favquote' quote.id %}" method="post">
+      {% csrf_token %}
+    <input type="submit" name="addlist" value="Add to My List">
+    </form>
+    <hr>
+    {% endfor %}
+  </div>
+
+
+  <div class="favoritequotes">
+    <h3>Your Favorites</h3>
+    <hr>
+    {% for fav in favquotes %}
+    <p>Quote:{{fav.quoteauthorfav}}: {{fav.quotemessagefav}}</p>
+    <p>Posted by <a href="{% url 'pythonbelt:quoteuser' fav.userfav.id %}">{{fav.quote.user.name}}</a></p>
+
+    <form action="{% url 'pythonbelt:remove' fav.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" name="removefromlist" value="Remove From My List">
+    </form>
+    <hr>
+    {% endfor %}
+  </div>
+
+  <hr>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="flashmessages">
+        {{message}}
+      </div>
+    {% endfor %}
+  {% endif %}
+  <div class="quotecontributions">
+    <form action="{% url 'pythonbelt:quotecontribute' %}" method="post">
+      {% csrf_token %}
+      <h3>Contribute a Quote</h3>
+      <p>Quoted By: <input type="text" name="quoteauthor" value=""></p>
+      <p>Message: <textarea name="quotemessage" rows="8" cols="80"></textarea></p>
+      <input type="submit" name="submit" value="submit">
+    </form>
+
+  </div>
+  <body>
+
+  </body>
+</html>
